@@ -1,5 +1,7 @@
 package fpinscala.gettingstarted
 
+import fpinscala.gettingstarted.PolymorphicFunctions.isSorted
+
 // A comment!
 /* Another comment */
 /** A documentation comment */
@@ -134,6 +136,15 @@ object MonomorphicBinarySearch {
 
 }
 
+object TestIsSorted extends App {
+  private val sortedArray = Array(1, 3, 7)
+  private val notSortedArray = Array(9, 3, 7)
+  println(isSorted(sortedArray, gt))
+  println(isSorted(notSortedArray, gt))
+
+  def gt(x: Int, y: Int) = x > y
+}
+
 object PolymorphicFunctions {
 
   // Here's a polymorphic version of `binarySearch`, parameterized on
@@ -155,9 +166,19 @@ object PolymorphicFunctions {
     go(0, 0, as.length - 1)
   }
 
+
   // Exercise 2: Implement a polymorphic function to check whether
   // an `Array[A]` is sorted
-  def isSorted[A](as: Array[A], gt: (A, A) => Boolean): Boolean = ???
+  def isSorted[A](as: Array[A], gt: (A, A) => Boolean): Boolean = {
+
+    def go(index: Int): Boolean = {
+      if (index + 1 == as.length) true
+      else if (gt(as(index), as(index + 1))) false
+      else go(index + 1)
+    }
+
+    go(0)
+  }
 
   // Polymorphic functions are often so constrained by their type
   // that they only have one implementation! Here's an example:
